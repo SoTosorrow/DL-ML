@@ -2,7 +2,7 @@ from math import sqrt
 from random import randint
 
 
-##Generate KD tree
+# Generate KD tree
 def createTree(dataSet, layer=0, feature=2):
     length = len(dataSet)
     dataSetCopy = dataSet[:]
