@@ -127,17 +127,18 @@ def createTestSet():
 def dataset_entropy(dataset):
     print(dataset[:,-1])
     classLabel = dataset[:,-1]
-    labelCount = {}
+    labelCount = {}  # dict
     for i in range(classLabel.size):
         label = classLabel[i]
         labelCount[label]=labelCount.get(label,0)+1
-    # 熵值
+    # 熵值 entropy
     ent=0
     for k,v in labelCount.items():
         ent+=-v/classLabel.size*np.log2(v/classLabel.size)
     return ent
 
-def splitDataSet(dataset,featureIndex):
+def splitDataSet(dataset,featureIndex):  # feature is attribute,featureIndex is index of attribute
+    # calculate entropy of every feature or label
     # 划分后的子集
     subdataset=[]
     featureValues = dataset[:,featureIndex]
