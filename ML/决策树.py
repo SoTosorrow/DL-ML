@@ -73,12 +73,86 @@ id3: 如何选择最优算法---使用信息增益度选择测试属性
 正负例类包含 0% - 100%，不确定度先增大（50%最大，熵为1），再减小
 所以数据变得越来越“纯”时，熵越来越小
 
-按条件划分的信息熵：
+按条件划分的信息熵：条件熵
 假设按属性A划分D中的样本，且属性A根据训练数据的观测具有 V 个不同取值 {a1,a2,....aj,..,av}
 如果A是离散值，可依属性A将D划分为V个子集{D1,D2,....Dj,...Dv}
 其中，Dj为D中的样本子集，在A上具有属性aj
 这些划分将对应于从该节点A出来的分支，按A对D划分后，数据集的信息熵：
     Info_A(D) = ∑[ (|Dj|/|D|) * Info(Dj) ]    从j=1到v
     其中，|Dj|/|D| 充当第j个划分的权重
+    Info_A(D) 越小，表示划分纯度越高
+信息增益 GAIN
+gain(A) = Info(D) - Info_A(D)  数据集的熵 - 某一属性的熵
+    选择熵最小，也就是信息增益最大
 """
 
+
+# id3
+import numpy as np
+
+def createDataSet():
+    """
+    outlook->  0: sunny | 1: overcast | 2: rain
+    temperature-> 0: hot | 1: mild | 2: cool
+    humidity-> 0: high | 1: normal
+    windy-> 0: false | 1: true
+    """
+    dataSet = np.array([[0, 0, 0, 0, 'N'],
+               [0, 0, 0, 1, 'N'],
+               [1, 0, 0, 0, 'Y'],
+               [2, 1, 0, 0, 'Y'],
+               [2, 2, 1, 0, 'Y'],
+               [2, 2, 1, 1, 'N'],
+               [1, 2, 1, 1, 'Y']])
+    labels = np.array(['outlook', 'temperature', 'humidity', 'windy'])  # 标签,属性
+    return dataSet, labels
+
+def createTestSet():
+    """
+    outlook->  0: sunny | 1: overcast | 2: rain
+    temperature-> 0: hot | 1: mild | 2: cool
+    humidity-> 0: high | 1: normal
+    windy-> 0: false | 1: true
+    """
+    testSet = np.array([[0, 1, 0, 0],
+               [0, 2, 1, 0],
+               [2, 1, 1, 0],
+               [0, 1, 1, 1],
+               [1, 1, 0, 1],
+               [1, 0, 1, 0],
+               [2, 1, 0, 1]])
+    return testSet
+
+# 计算信息熵
+def dataset_entropy(dataset):
+    print(dataset[:,-1])
+    classLabel = dataset[:,-1]
+    labelCount = {}
+    for i in range(classLabel.size):
+        label = classLabel[i]
+        labelCount[label]=labelCount.get(label,0)+1
+    # 熵值
+    ent=0
+    for k,v in labelCount.items():
+        ent+=-v/classLabel.size*np.log2(v/classLabel.size)
+    return ent
+
+def splitDataSet(dataset,featureIndex):
+    # 划分后的子集
+    subdataset=[]
+    featureValues = dataset[:,featureIndex]
+    featureSet = list(set(featureValues))
+    for i in range(len(featureSet)):
+        newset=[]
+        for j in range(dataset.shape[0]):
+            if featureSet[i]==featureValues[j]:
+                newset.append(dataset[j,:])
+        newset =np.delete(newset,featureIndex,axis=1)
+        subdataset.append(np.array(newset))
+    return subdataset
+if __name__=="__main__":
+    dataset,labels = createDataSet()
+    # print(dataset_entropy(dataset))
+    s = splitDataSet(dataset,0)
+    for item in s:
+        print(item)
