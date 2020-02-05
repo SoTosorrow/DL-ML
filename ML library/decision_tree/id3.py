@@ -47,6 +47,7 @@ def dataset_entropy(dataset):
     return ent
 
 def splitDataSet(dataset,featureIndex,value):
+    # 将数据集切片
     subdataset = []
     for example in dataset:
         if example[featureIndex]==value:
@@ -54,9 +55,11 @@ def splitDataSet(dataset,featureIndex,value):
     return np.delete(subdataset,featureIndex,axis=1)
 
 def chooseBestFeature(dataset,labels):
-    #特征的个数
+    # 找到最优的特征属性，返回的是特征的索引，依据是熵值，如果熵=1的话，肯定是最小的
+    # 熵值为1的时候，是正负例完全分开
+    # 特征的个数
     featureNum = labels.size
-    #最小熵值
+    # 最小熵值
     minEntropy,bestFeatureIndex=1,None
     #样本的总数
     n = dataset.shape[0]
@@ -67,8 +70,12 @@ def chooseBestFeature(dataset,labels):
         featureList = dataset[:, i]
         featureValues = set(featureList)
         for value in featureValues:
+            # 条件熵
             subDataSet = splitDataSet(dataset,i,value)
-            featureEntropy+=subDataSet.shape[0]/n*dataset_entropy(subDataSet)
+            # 子集样本的总数 subDataSet.shape[0]
+            # |Dj|/|D|                              Info(Dj)
+            featureEntropy+=subDataSet.shape[0]/n* dataset_entropy(subDataSet)
+        # 如果找到更优的属性（熵更小），就替换
         if minEntropy>featureEntropy:
             minEntropy = featureEntropy
             bestFeatureIndex = i
