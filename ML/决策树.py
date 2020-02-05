@@ -151,6 +151,10 @@ def splitDataSet(dataset,featureIndex):  # feature is attribute,featureIndex is 
         newset =np.delete(newset,featureIndex,axis=1)
         subdataset.append(np.array(newset))
     return subdataset
+
+def choseBestFeature(dataSet, feature):
+    pass
+
 if __name__=="__main__":
     dataset,labels = createDataSet()
     # print(dataset_entropy(dataset))
