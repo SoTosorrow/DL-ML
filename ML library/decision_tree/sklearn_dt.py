@@ -144,10 +144,10 @@ def plot_roc():
 
 
 if __name__=="__main__":
-    #getCriterion()
-    #getDepth()
+    # getCriterion()
+    getDepth()
     # getMinSampleSplit()
     #getMinLeaf()
     # out_image()
     #graph_roc()
-    plot_roc()
+    # plot_roc()
