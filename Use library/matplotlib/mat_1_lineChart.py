@@ -1,3 +1,6 @@
+# 2020-2-5
+# 官方demo：https://matplotlib.org/gallery/index.html
+
 import matplotlib.pyplot as plt
 import random
 
@@ -37,6 +40,9 @@ _xtick_labels=_xtick_labels[::3]  列表取步长(间隔取值，每隔3取一�
 plt.xticks(x)  # 把x的每个值都作为x轴 刻度,是一个列表
 plt.yticks(range(min(y),max(y)+1))
 
+# 绘制网格
+plt.grid(alpha=0.1)
+
 
 # 线条样式
 # 标记出特殊点
@@ -54,7 +60,7 @@ fig =plt.figure(figsize=(15,6), dpi=80)
 # 调整x轴刻度成字符串
 _x = list(a)
 # _xtick_labels = ["time{}".format(i) for i in _x]
-_xtick_labels =["10点{}".format(i) for i in range(60)]
+_xtick_labels =["10:{}".format(i) for i in range(60)]
 _xtick_labels += ["11:{}".format(i) for i in range(60)]
 # 取步长，数字和字符串一一对应，数据的长度一样
 # rotation  刻度旋转度数
