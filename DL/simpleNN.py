@@ -12,7 +12,7 @@ layer2:输出层，输出01分类
 def sigmoid(x, deriv=False):
     # deriv =True:计算导数, False 不计算导数（控制是前向还是反向传播
     if deriv is True:  # 反向传播，求导
-        return x(1-x)
+        return x* (1-x)
     return 1/(1+np.exp(-x))  # 前向传播的值  e的-x幂次方
 
 # 构造数据(5,3)
@@ -39,3 +39,13 @@ for i in range(60000):
     l2_error = y -l2  # 预测值和真实值之间差异值
     if (i %10000)== 0:
         print("Error" +str(np.mean(np.abs(l2_error))))
+    # 反向传播
+    l2_delta = l2_error * sigmoid(l2,deriv=True)  # 通过差异更新权重，差异越大更新越大
+    l1_error = l2_delta.dot(w1.T)
+    l1_delta = l1_error * sigmoid(l1,deriv=True)
+
+    # y-l2:+=  ; l2-y:-=
+    # 先更新w1
+    w1 += l1.T.dot(l2_delta)
+    w0 += l0.T.dot(l1_delta)
+
