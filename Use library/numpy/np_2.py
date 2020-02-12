@@ -72,4 +72,5 @@ a=b.copy()
 极值  np.ptp(a, axis=None)  最大最小之差
 标准差  a.std(axis=None)  越大越不稳定
 方差 a.var()
+np.exp(x)  e的x幂次方
 """
