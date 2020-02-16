@@ -144,3 +144,4 @@ tf.range()函数实现。tf.range(limit, delta=1)可以创建[0, limit)之间，
 range1 =tf.range(10)  # 0~10，不包含 10
 range2 = tf.range(10,delta=2)  # 创建 0~10，步长为 2 的整形序列
 range3 = tf.range(1,10,delta=2)  # 1~10
+

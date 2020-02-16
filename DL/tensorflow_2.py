@@ -9,7 +9,7 @@ import os
 x = 2* tf.convert_to_tensor(x, dtype=tf.float32)/255. -1
 y = tf.convert_to_tensor(y, dtype=tf.int32)  # 转换为整形张量
 # y = tf.constant([0,1,2,3])   数字编码的 4 个样本标签
-y = tf.one_hot(y, depth=10)  # one-hot 编码
+# y = tf.one_hot(y, depth=10)  # one-hot 编码
 print(x.shape, y.shape)
 train_dataset = tf.data.Dataset.from_tensor_slices((x, y))  # 构建数据集对象
 train_dataset = train_dataset.batch(512) # 批量训练
@@ -44,13 +44,12 @@ with tf.GradientTape() as tape: # 构建梯度记录环境
     # 再利用tf提供的自动求导函数 tape.gradient(loss, model.trainable_variables)
     # 求出模型中所有参数的梯度信息
     # Step3. 计算参数的梯度 w1, w2, w3, b1, b2, b3
-    grads = tape.gradient(loss, model.trainable_variables)
+    # grads = tape.gradient(loss, model.trainable_variables)
 
     # 计算获得的梯度结果使用 grads 列表变量保存。再使用 optimizers 对象
     # 自动按照梯度更新法则去更新模型的参数𝜃。
     # 自动计算梯度
     grads = tape.gradient(loss, model.trainable_variables)
     # w' = w - lr * grad，更新网络参数
-    tf.keras.optimizers.apply_gradients(zip(grads, model.trainable_variables))
-
-
+    # tf.keras.optimizers.apply_gradients(zip(grads, model.trainable_variables))
+    tf.keras.optimizers.SGD(0.1).apply_gradients(zip(grads, model.trainable_variables))
